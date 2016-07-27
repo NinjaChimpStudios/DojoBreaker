@@ -1,8 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour {
 
+	public float splashDelay = 5.0f;
+	public AudioClip splashSound;
+	
+	void Start() {
+		if (SceneManager.GetActiveScene().name == "Splash") {
+			AudioSource.PlayClipAtPoint (splashSound, transform.position, 1.0f);
+			Invoke("LoadNextLevel", splashDelay);
+		}
+	}
+	
 	public void LoadLevel(string name){
 		Debug.Log ("New Level load: " + name);
 		Brick.breakableCount = 0;
