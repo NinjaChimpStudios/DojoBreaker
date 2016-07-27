@@ -1,8 +1,8 @@
 # Dojo Breaker
 
-A simple Arkanoid clone built in Unity 5 on the codebase from [The Complete Unity Developer](https://www.udemy.com/unitycourse/?couponCode=GitHubDiscount) course.
+A simple Arkanoid clone built with Unity 5 on the codebase from [The Complete Unity Developer](https://www.udemy.com/unitycourse/?couponCode=GitHubDiscount) course.
 
-Intended for CoderDojo ninjas to see their way around Unity, see for themselves the ease of writing for the FiftySix Android tablet, and modify themselves including adding new levels.
+Intended for CoderDojo ninjas to get an introduction to Unity, see for themselves the ease of writing for the FiftySix Android tablet, and modify themselves including adding new levels.
 
 ## Acknowledgements
 
@@ -21,6 +21,6 @@ Please contact us via [our website](http://ninjachimpstudios.com) if you would l
 
 * The original codebase is available on [GitHub](https://github.com/CompleteUnityDeveloper/05-Block-Breaker). It has no specific license.
 * The Ninja Chimp Studios splash screen and logo _may not be used or included in any derivative works_.
-* The CoderDojo Brisbane logo is used with permission, but _may not be used included in derivative works_.
+* The CoderDojo Brisbane logo is used with permission, but _may not be used or included in derivative works_.
 * It is our belief that the logos for coderdojo.org, hellofiftysix.com, gamedev.tv, kenney.nl and github.com do not require express permission for inclusion in our credits page. 
 * Assets from KenneyNL are licensed under CC0.
