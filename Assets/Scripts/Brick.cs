@@ -12,21 +12,14 @@ public class Brick : MonoBehaviour {
 	private LevelManager levelManager;
 	private bool isBreakable;
 	
-	// Use this for initialization
 	void Start () {
 		isBreakable = (this.tag == "Breakable");
-		// Keep track of breakable bricks
 		if (isBreakable) {
 			breakableCount++;
 		}
 		
 		timesHit = 0;
 		levelManager = GameObject.FindObjectOfType<LevelManager>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
 	}
 	
 	void OnCollisionEnter2D (Collision2D col) {
@@ -41,10 +34,11 @@ public class Brick : MonoBehaviour {
 		int maxHits = hitSprites.Length + 1;
 		if (timesHit >= maxHits) {
 			breakableCount--;
-			levelManager.BrickDestoyed();
+			levelManager.BrickDestroyed();
 			// PuffSmoke();
 			Destroy(gameObject);
 		} else {
+			levelManager.BrickBounce();
 			LoadSprites();
 		}
 	}

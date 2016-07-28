@@ -2,11 +2,11 @@
 public class Collision : System.IComparable {
 
     public float collisionTime {get; private set;}
-    public int collisionType {get; private set;}
+    public CollisionType collisionType {get; private set;}
     
-    public enum collisionTypes {Bat, Crack, Break}
+    public enum CollisionType {Bat, Crack, Break}
 
-    public Collision(float time, int type) {
+    public Collision(float time, CollisionType type) {
         collisionTime = time;
         collisionType = type;    
     }
