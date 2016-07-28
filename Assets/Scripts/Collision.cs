@@ -1,5 +1,5 @@
 
-public struct Collision : System.IComparable {
+public class Collision : System.IComparable {
 
     public float collisionTime {get; private set;}
     public int collisionType {get; private set;}
@@ -12,14 +12,13 @@ public struct Collision : System.IComparable {
     }
 
     public int CompareTo(object obj) {
-        if (obj != null && obj.GetType() == typeof(Collision)) {
-            Collision other = (Collision)obj;
-            if (this.collisionTime != other.collisionTime) {
-                // could return this - other, but we get into rounding issues with casting to int
-                return (this.collisionTime < other.collisionTime) ? -1 : 1;
-            }
+        if (obj == null) return 1;
+        Collision other = obj as Collision;
+        if (other != null) {
+            return this.collisionTime.CompareTo(other.collisionTime);
+        } else {
+            throw new System.ArgumentException("object is not a Collision");
         }
-        return 0;
     }
 
 }

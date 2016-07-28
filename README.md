@@ -10,7 +10,7 @@ Intended for CoderDojo ninjas to get an introduction to Unity, see for themselve
 * [CoderDojo](http://coderdojo.com) the foundation providing free coding education to kids aged 7-17 at over 1,000 locations worldwide. Become a mentor!
 * [CoderDojo Brisbane](https://coderdojobrisbane.com.au/) for funding and running the outstanding CoderDojo program in Brisbane, Australia.
 * [FiftySix](https://hellofiftysix.com/) the creators of the FiftySix tablet, the target device for this project. Great supporters of CoderDojo Brisbane and an inspiration for all kids who want to be tech entrepreneurs.
-* [KenneyNL](http://www.kenney.nl/) for his superb game art assets. 
+* [KenneyNL](http://www.kenney.nl/) "Asset Jesus" for his superb game art assets. 
 * [GitHub](http://github.com) for hosting the Git repository for this project.
 
 ## Licenses, Disclaimers and Copyright
