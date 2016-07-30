@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour {
 
@@ -12,6 +13,7 @@ public class ScoreManager : MonoBehaviour {
 
 	private int theScore = 0;
 	private Text scoreText;
+	private const string levelPrefix = "Level_";
 	
 	void Awake() {
 		if (Instance != null && Instance != this) {
@@ -24,7 +26,13 @@ public class ScoreManager : MonoBehaviour {
 	}
 
 	void Update() {
-		scoreText.text = "SCORE: " + theScore;
+		if (SceneManager.GetActiveScene().name.StartsWith(levelPrefix)) {
+			scoreText.enabled = true;
+			scoreText.text = "SCORE: " + theScore;
+		} else {
+			scoreText.enabled = false;
+		}
+		
 	}
 
 	public void CollisionScore(Collision c) {
