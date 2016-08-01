@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour {
 
@@ -8,13 +9,16 @@ public class LevelManager : MonoBehaviour {
 	public AudioClip splashSound;
 
 	private ScoreManager scoreman;
-	private string startPrefix = "Start";
+	private const string startPrefix = "Start";
+	private const string endPrefix = "End"; 
 	
 	void Start() {
 		scoreman = GameObject.FindObjectOfType<ScoreManager>();
 		if (SceneManager.GetActiveScene().name == "Splash") {
 			AudioSource.PlayClipAtPoint (splashSound, transform.position, 1.0f);
 			Invoke("LoadNextLevel", splashDelay);
+		} else if (SceneManager.GetActiveScene().name.StartsWith(endPrefix)) {
+			GameObject.Find("FinalScore").GetComponent<Text>().text = string.Format("Final Score: {0}", scoreman.theScore);
 		}
 	}
 	
@@ -37,7 +41,7 @@ public class LevelManager : MonoBehaviour {
 		scoreman.ResetCollisionCount();
 		if (SceneManager.GetActiveScene().name.StartsWith(startPrefix)) {
 			scoreman.ResetScore();
-		}
+		} 
 	}
 
 	public void QuitRequest(){
