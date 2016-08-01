@@ -25,4 +25,4 @@ Please contact us via [our website](http://ninjachimpstudios.com) if you would l
 * It is our belief that the logos for coderdojo.org, hellofiftysix.com, gamedev.tv, kenney.nl and github.com do not require express permission for inclusion in our credits page. 
 * Assets from KenneyNL are licensed under CC0.
 * The BM Block font from dafont.com is used under its 100% Free license.
-* The Powerchord fot from dafont.com is used under its 100% Free license.
+* The Powerchord font from dafont.com is used under its 100% Free license.
