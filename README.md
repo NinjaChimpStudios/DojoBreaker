@@ -20,7 +20,7 @@ No formal relationship exists between Ninja Chimp Studios and any organisation w
 Please contact us via [our website](http://ninjachimpstudios.com) if you would like to discuss the use of any asset in this project.
 
 * The original codebase is available on [GitHub](https://github.com/CompleteUnityDeveloper/05-Block-Breaker). It had no specific license at the time of forking (27 Jul 2016).
-* The Ninja Chimp Studios splash screen and logo _may not be used or included in any derivative works_.
+* The Ninja Chimp Studios logo _may not be used or included in any derivative works_.
 * The CoderDojo Brisbane logo is used with permission, but _may not be used or included in derivative works_.
 * It is our belief that the logos for coderdojo.org, hellofiftysix.com, gamedev.tv, kenney.nl and github.com do not require express permission for inclusion in our credits page. 
 * Assets from KenneyNL are licensed under CC0.
