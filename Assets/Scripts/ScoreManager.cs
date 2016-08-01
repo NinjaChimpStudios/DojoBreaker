@@ -56,7 +56,8 @@ public class ScoreManager : MonoBehaviour {
 	}
 
 	public void ResetScore() {
-		// TODO
+		Debug.Log("Resetting score to 0");
+		theScore = 0;
 	}
 
 	public void ResetCollisionCount() {

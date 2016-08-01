@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour {
 	public AudioClip splashSound;
 
 	private ScoreManager scoreman;
+	private string startPrefix = "Start";
 	
 	void Start() {
 		scoreman = GameObject.FindObjectOfType<ScoreManager>();
@@ -21,16 +22,22 @@ public class LevelManager : MonoBehaviour {
 		Scene current = SceneManager.GetActiveScene();
 		int newindex = current.buildIndex + 1;
 		Debug.Log ("New Level load: " + newindex);
-		Brick.breakableCount = 0;
-		scoreman.ResetCollisionCount();
+		CheckScore();
 		SceneManager.LoadScene(newindex);
 	}
 
 	public void LoadLevel(string name){
 		Debug.Log ("New Level load: " + name);
+		CheckScore();
+		SceneManager.LoadScene(name);
+	}
+
+	private void CheckScore() {
 		Brick.breakableCount = 0;
 		scoreman.ResetCollisionCount();
-		SceneManager.LoadScene(name);
+		if (SceneManager.GetActiveScene().name.StartsWith(startPrefix)) {
+			scoreman.ResetScore();
+		}
 	}
 
 	public void QuitRequest(){
