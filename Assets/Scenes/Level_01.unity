@@ -1181,7 +1181,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c6e1170c575024d759044e6604847455, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 11.22
+      value: 11.19
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c6e1170c575024d759044e6604847455, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1677,7 +1677,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c6e1170c575024d759044e6604847455, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 11.22
+      value: 11.19
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c6e1170c575024d759044e6604847455, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1777,7 +1777,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1691992917}
   m_Layer: 0
-  m_Name: Borders (1)
+  m_Name: BordersRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1809,7 +1809,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1714407590}
   m_Layer: 0
-  m_Name: Borders
+  m_Name: BordersLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
