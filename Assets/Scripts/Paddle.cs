@@ -7,9 +7,11 @@ public class Paddle : MonoBehaviour {
 	public float minX, maxX;
 
 	private Ball ball;
+	private LevelManager levelManager;
 	
 	void Start () {
 		ball = GameObject.FindObjectOfType<Ball>();
+		levelManager = GameObject.FindObjectOfType<LevelManager>();
 	}
 		
 	// Update is called once per frame
@@ -30,8 +32,12 @@ public class Paddle : MonoBehaviour {
 	
 	void MoveWithMouse () {
 		Vector3 paddlePos = new Vector3 (0.5f, this.transform.position.y, 0f);
-		float mousePosInBlocks = Input.mousePosition.x / Screen.width * 16;
+		float mousePosInBlocks = Input.mousePosition.x / Screen.width * 20.48f;
 		paddlePos.x = Mathf.Clamp(mousePosInBlocks, minX, maxX);
 		this.transform.position = paddlePos;
+	}
+
+	void OnCollisionEnter2D (Collision2D collision) {
+		levelManager.PaddleBounce();
 	}
 }
