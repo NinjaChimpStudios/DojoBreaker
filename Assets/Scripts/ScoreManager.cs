@@ -35,6 +35,10 @@ public class ScoreManager : MonoBehaviour {
 		
 	}
 
+	public void SetUIColour(Color c) {
+		scoreText.color = c;
+	}
+
 	public void CollisionScore(Collision c) {
 		Debug.Log(String.Format(
 			"New Collision detected, Time {0}, Type {1}, {2} in Stack",

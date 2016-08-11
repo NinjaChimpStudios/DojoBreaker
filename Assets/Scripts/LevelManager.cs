@@ -7,6 +7,7 @@ public class LevelManager : MonoBehaviour {
 
 	public float splashDelay = 5.0f;
 	public AudioClip splashSound;
+	public Color UIColour;
 
 	private ScoreManager scoreman;
 	private const string startPrefix = "Start";
@@ -14,6 +15,7 @@ public class LevelManager : MonoBehaviour {
 	
 	void Start() {
 		scoreman = GameObject.FindObjectOfType<ScoreManager>();
+		scoreman.SetUIColour(UIColour);
 		if (SceneManager.GetActiveScene().name == "Splash") {
 			AudioSource.PlayClipAtPoint (splashSound, transform.position, 1.0f);
 			Invoke("LoadNextLevel", splashDelay);

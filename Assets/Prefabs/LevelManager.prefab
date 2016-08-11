@@ -42,6 +42,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   splashDelay: 5
   splashSound: {fileID: 8300000, guid: d168a511a13284983bdf96f8a5ce60b9, type: 3}
+  UIColour: {r: 0.92549026, g: 0.92549026, b: 0.92549026, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
