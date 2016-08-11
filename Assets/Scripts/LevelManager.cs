@@ -9,18 +9,18 @@ public class LevelManager : MonoBehaviour {
 	public AudioClip splashSound;
 	public Color UIColour;
 
-	private ScoreManager scoreman;
+	private GameManager gameman;
 	private const string startPrefix = "Start";
 	private const string endPrefix = "End"; 
 	
 	void Start() {
-		scoreman = GameObject.FindObjectOfType<ScoreManager>();
-		scoreman.SetUIColour(UIColour);
+		gameman = GameObject.FindObjectOfType<GameManager>();
+		gameman.SetUIColour(UIColour);
 		if (SceneManager.GetActiveScene().name == "Splash") {
 			AudioSource.PlayClipAtPoint (splashSound, transform.position, 1.0f);
 			Invoke("LoadNextLevel", splashDelay);
 		} else if (SceneManager.GetActiveScene().name.StartsWith(endPrefix)) {
-			GameObject.Find("FinalScore").GetComponent<Text>().text = string.Format("Final Score: {0}", scoreman.theScore);
+			GameObject.Find("FinalScore").GetComponent<Text>().text = string.Format("Final Score: {0}", gameman.theScore);
 		}
 	}
 	
@@ -40,9 +40,9 @@ public class LevelManager : MonoBehaviour {
 
 	private void CheckScore() {
 		Brick.breakableCount = 0;
-		scoreman.ResetCollisionCount();
+		gameman.ResetCollisionCount();
 		if (SceneManager.GetActiveScene().name.StartsWith(startPrefix)) {
-			scoreman.ResetScore();
+			gameman.ResetScore();
 		} 
 	}
 
@@ -53,7 +53,7 @@ public class LevelManager : MonoBehaviour {
 		
 	public void BrickDestroyed() {
 		Debug.Log("Ball destroyed Brick");
-		scoreman.CollisionScore(new Collision(Time.time, Collision.CollisionType.Break));
+		gameman.CollisionScore(new Collision(Time.time, Collision.CollisionType.Break));
 		if (Brick.breakableCount <= 0) {
 			LoadNextLevel();
 		}
@@ -61,11 +61,11 @@ public class LevelManager : MonoBehaviour {
 
 	public void BrickBounce() {
 		Debug.Log("Ball bounced off Brick");
-		scoreman.CollisionScore(new Collision(Time.time, Collision.CollisionType.Crack));
+		gameman.CollisionScore(new Collision(Time.time, Collision.CollisionType.Crack));
 	}
 
 	public void PaddleBounce() {
 		Debug.Log("Ball bounced off Paddle");
-		scoreman.CollisionScore(new Collision(Time.time, Collision.CollisionType.Bat));
+		gameman.CollisionScore(new Collision(Time.time, Collision.CollisionType.Bat));
 	}
 }
