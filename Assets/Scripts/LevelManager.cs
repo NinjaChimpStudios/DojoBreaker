@@ -1,41 +1,42 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour {
 
-	public float splashDelay = 5.0f;
-	public AudioClip splashSound;
 	public Color UIColour;
+	public int levelNumber;
 
 	private GameManager gameman;
-	private const string startPrefix = "Start";
-	private const string endPrefix = "End";
-	private const string levelPrefix = "Level";
-	private const string firstLevel = "Level_01";
 	
 	void Start() {
 		gameman = GameObject.FindObjectOfType<GameManager>();
 		gameman.SetUIColour(UIColour);
-		if (SceneManager.GetActiveScene().name == "Splash") {
-			AudioSource.PlayClipAtPoint (splashSound, transform.position, 1.0f);
-			Invoke("LoadNextLevel", splashDelay);
-		} else if(SceneManager.GetActiveScene().name == firstLevel) {
-			gameman.ReportGameStart();
-		} else if (SceneManager.GetActiveScene().name.StartsWith(endPrefix)) {
+		if (SceneManager.GetActiveScene().name.StartsWith(gameman.splashPrefix)) {
+			// Splash scene
+			AudioSource.PlayClipAtPoint (gameman.splashSound, transform.position, 1.0f);
+			Invoke("LoadNextLevel", gameman.splashDelay);
+		} else if (SceneManager.GetActiveScene().name.StartsWith(gameman.endPrefix)) {
+			// End scene
 			gameman.ReportGameEnd();
 			GameObject.Find("FinalScore").GetComponent<Text>().text = string.Format("Final Score: {0}", gameman.theScore);
-		}
-		if (SceneManager.GetActiveScene().name.StartsWith(levelPrefix)) {
-			gameman.ReportLevelStart(SceneManager.GetActiveScene().name);
+		} else if (SceneManager.GetActiveScene().name.StartsWith(gameman.levelPrefix)) {
+			if (SceneManager.GetActiveScene().name == gameman.firstLevel) {
+				// First Game Level
+				gameman.ReportGameStart();
+			}
+			// Game Level
+			gameman.ReportLevelStart(levelNumber);
+		} else if (SceneManager.GetActiveScene().name.StartsWith(gameman.startPrefix)) {
+			// Start Menu scene
+			gameman.ReportMenu(levelNumber);
 		}
 	}
 	
 	public void LoadNextLevel() {
 		Scene current = SceneManager.GetActiveScene();
 		int newindex = current.buildIndex + 1;
-		Debug.Log ("New Level load: " + newindex);
+		Debug.Log ("New Next Level load index: " + newindex);
 		CheckScore();
 		SceneManager.LoadScene(newindex);
 	}
@@ -49,7 +50,7 @@ public class LevelManager : MonoBehaviour {
 	private void CheckScore() {
 		Brick.breakableCount = 0;
 		gameman.ResetCollisionCount();
-		if (SceneManager.GetActiveScene().name.StartsWith(startPrefix)) {
+		if (SceneManager.GetActiveScene().name.StartsWith(gameman.startPrefix)) {
 			gameman.ResetScore();
 		} 
 	}
@@ -60,7 +61,7 @@ public class LevelManager : MonoBehaviour {
 	}
 		
 	public void BrickDestroyed() {
-		Debug.Log("Ball destroyed Brick");
+		// Debug.Log("Ball destroyed Brick");
 		gameman.CollisionScore(new Collision(Time.time, Collision.CollisionType.Break));
 		if (Brick.breakableCount <= 0) {
 			LoadNextLevel();
@@ -68,12 +69,12 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	public void BrickBounce() {
-		Debug.Log("Ball bounced off Brick");
+		// Debug.Log("Ball bounced off Brick");
 		gameman.CollisionScore(new Collision(Time.time, Collision.CollisionType.Crack));
 	}
 
 	public void PaddleBounce() {
-		Debug.Log("Ball bounced off Paddle");
+		// Debug.Log("Ball bounced off Paddle");
 		gameman.CollisionScore(new Collision(Time.time, Collision.CollisionType.Bat));
 	}
 }

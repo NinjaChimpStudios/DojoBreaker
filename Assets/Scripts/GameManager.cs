@@ -8,14 +8,22 @@ using UnityEngine.Analytics;
 public class GameManager : MonoBehaviour {
 
 	public static GameManager Instance {get; private set;}
+
+	public float splashDelay;
+	public AudioClip splashSound;
+	public string levelPrefix;
+	public string startPrefix;
+	public string endPrefix;
+	public string firstLevel;
+	public string splashPrefix;
+
 	public int theScore {get; private set;}
+	public int latestLevel {get; private set;}
 
 	private Stack<Collision> collisions;
 	private const int defaultStackSize = 100;
 	private Text scoreText;
-	private const string levelPrefix = "Level_";
-	private string highestLevel = "Splash";
-	private string latestLevel = "Splash";
+	private int highestLevel;
 	private int highestScore = 0;
 	private int gameCount = 0;
 	
@@ -28,6 +36,7 @@ public class GameManager : MonoBehaviour {
  		DontDestroyOnLoad(gameObject);
 		collisions = new Stack<Collision>(defaultStackSize);
 		scoreText = GameObject.Find("ScoreText").GetComponent<Text>();
+		latestLevel = 0;
 	}
 
 	void Update() {
@@ -46,11 +55,11 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void CollisionScore(Collision c) {
-		Debug.Log(String.Format(
-			"New Collision detected, Time {0}, Type {1}, {2} in Stack",
-			c.collisionTime,
-			c.collisionType,
-			collisions.Count ));
+		// Debug.Log(String.Format(
+		//	"New Collision detected, Time {0}, Type {1}, {2} in Stack",
+		//	c.collisionTime,
+		//	c.collisionType,
+		//	collisions.Count ));
 		int scoreMult = 1;
 		bool doubleBat = false;
 		if (collisions.Count > 0) {
@@ -91,12 +100,20 @@ public class GameManager : MonoBehaviour {
 		gameCount++;
 	}
 
-	public void ReportLevelStart(string level) {
-		Debug.Log("Level Start Reported for :" + level + ":");
+	public void ReportLevelStart(int level) {
 		latestLevel = level;
-		if (SceneManager.GetSceneByName(level).buildIndex > SceneManager.GetSceneByName(highestLevel).buildIndex) {
+		Debug.Log("Level Start Reported for :" + level + ":");
+		Debug.Log("Latest Level :" + latestLevel + ":");
+		Debug.Log("Highest Level :" + highestLevel + ":");
+		if (level > highestLevel) {
 			highestLevel = level;
+			Debug.Log("Highest Level updated to :" + highestLevel + ":");
 		}
+	}
+
+	public void ReportMenu(int level) {
+		Debug.Log("StartMenu Reported");
+		latestLevel = level;
 	}
 	
 	public void ReportLevelEnd() {
