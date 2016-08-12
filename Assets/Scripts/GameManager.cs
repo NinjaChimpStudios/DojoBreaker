@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Update() {
+		// TODO DOJO-20
 		if (SceneManager.GetActiveScene().name.StartsWith(levelPrefix)) {
 			scoreText.enabled = true;
 			scoreText.text = "SCORE: " + theScore;
@@ -86,32 +87,48 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void ReportGameStart() {
-
+		Debug.Log("Game Start Reported");
+		gameCount++;
 	}
 
-	public void ReportLevelStart() {
-
+	public void ReportLevelStart(string level) {
+		Debug.Log("Level Start Reported for :" + level + ":");
+		latestLevel = level;
+		if (SceneManager.GetSceneByName(level).buildIndex > SceneManager.GetSceneByName(highestLevel).buildIndex) {
+			highestLevel = level;
+		}
 	}
 	
 	public void ReportLevelEnd() {
-		
+		Debug.Log("Level End Reported");
 	}
 	
 	public void ReportGameEnd() {
-
+		if (theScore > highestScore) {
+			highestScore = theScore;
+		}
+		Debug.Log(string.Format("Game End Reported: Score {0} Level {1} Highest Score {2} Highest Level {3} Game Count {4}",
+			theScore,
+			latestLevel,
+			highestScore,
+			highestLevel,
+			gameCount));
+		Dictionary<string, object> d = new Dictionary<string, object> {
+			{ "score", theScore },
+			{ "level", latestLevel },
+			{ "highestScore", highestScore },
+			{ "highestLevel", highestLevel },
+			{ "gameCount", gameCount }
+		};
+		ReportAnalytics("dojobreaker.game.end", d);
 	}
 	
 	public void ReportQuit() {
-		Dictionary<string, object> d = new Dictionary<string, object> {
-			{ "highestLevel", highestLevel },
-    		{ "highestScore", highestScore },
-    		{ "gameCount", gameCount }
-		};
-		ReportAnalytics("dojobreaker.quit", d);
+
 	}
 
 	private void ReportAnalytics(string tag, Dictionary<string, object> data) {
-		// Analytics.CustomEvent(tag, data);
+		Analytics.CustomEvent(tag, data);
   	}
 
 }

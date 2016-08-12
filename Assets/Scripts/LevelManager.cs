@@ -11,7 +11,9 @@ public class LevelManager : MonoBehaviour {
 
 	private GameManager gameman;
 	private const string startPrefix = "Start";
-	private const string endPrefix = "End"; 
+	private const string endPrefix = "End";
+	private const string levelPrefix = "Level";
+	private const string firstLevel = "Level_01";
 	
 	void Start() {
 		gameman = GameObject.FindObjectOfType<GameManager>();
@@ -19,8 +21,14 @@ public class LevelManager : MonoBehaviour {
 		if (SceneManager.GetActiveScene().name == "Splash") {
 			AudioSource.PlayClipAtPoint (splashSound, transform.position, 1.0f);
 			Invoke("LoadNextLevel", splashDelay);
+		} else if(SceneManager.GetActiveScene().name == firstLevel) {
+			gameman.ReportGameStart();
 		} else if (SceneManager.GetActiveScene().name.StartsWith(endPrefix)) {
+			gameman.ReportGameEnd();
 			GameObject.Find("FinalScore").GetComponent<Text>().text = string.Format("Final Score: {0}", gameman.theScore);
+		}
+		if (SceneManager.GetActiveScene().name.StartsWith(levelPrefix)) {
+			gameman.ReportLevelStart(SceneManager.GetActiveScene().name);
 		}
 	}
 	
