@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour {
 	public string endPrefix;
 	public string firstLevel;
 	public string splashPrefix;
+	public bool allowLevelSkip;
+	public bool autoPlay;
 
 	public int theScore {get; private set;}
 	public int latestLevel {get; private set;}

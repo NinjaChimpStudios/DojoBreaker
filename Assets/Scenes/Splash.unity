@@ -372,6 +372,8 @@ MonoBehaviour:
   endPrefix: End
   firstLevel: Level_01
   splashPrefix: Splash
+  allowLevelSkip: 0
+  autoPlay: 0
 --- !u!4 &825779268
 Transform:
   m_ObjectHideFlags: 0

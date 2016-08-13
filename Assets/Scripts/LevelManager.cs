@@ -6,12 +6,16 @@ public class LevelManager : MonoBehaviour {
 
 	public Color UIColour;
 	public int levelNumber;
+	public bool skipThisLevel;
 
 	private GameManager gameman;
 	
 	void Start() {
 		gameman = GameObject.FindObjectOfType<GameManager>();
 		gameman.SetUIColour(UIColour);
+		if (skipThisLevel && gameman.allowLevelSkip) {
+			LoadNextLevel();
+		}
 		if (SceneManager.GetActiveScene().name.StartsWith(gameman.splashPrefix)) {
 			// Splash scene
 			AudioSource.PlayClipAtPoint (gameman.splashSound, transform.position, 1.0f);

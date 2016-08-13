@@ -3,15 +3,18 @@ using System.Collections;
 
 public class Paddle : MonoBehaviour {
 
-	public bool autoPlay = false;
 	public float minX, maxX;
 
 	private Ball ball;
 	private LevelManager levelManager;
+	private GameManager gameman;
+	private bool autoPlay = false;
 	
 	void Start () {
 		ball = GameObject.FindObjectOfType<Ball>();
 		levelManager = GameObject.FindObjectOfType<LevelManager>();
+		gameman = GameObject.FindObjectOfType<GameManager>();
+		autoPlay = gameman.autoPlay;
 	}
 		
 	// Update is called once per frame
