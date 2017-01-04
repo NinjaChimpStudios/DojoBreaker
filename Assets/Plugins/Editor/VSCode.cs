@@ -33,7 +33,7 @@ namespace dotBunny.Unity
         /// <summary>
         /// Download URL for Unity Debbuger
         /// </summary>
-        public const string UnityDebuggerURL = "https://raw.githubusercontent.com/dotBunny/VSCode-Test/master/Downloads/unity-debug-101.vsix";
+        public const string UnityDebuggerURL = "https://unity.gallery.vsassets.io/_apis/public/gallery/publisher/unity/extension/unity-debug/latest/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
 
         #region Properties
 
@@ -134,6 +134,21 @@ namespace dotBunny.Unity
                     // Update launch file
                     UpdateLaunchFile();
                 }
+            }
+        }
+        
+        /// <summary>
+        /// When opening a project in Unity, should it automatically open in VS Code.
+        /// </summary>
+        public static bool AutoOpenEnabled
+        {
+            get
+            {
+                return EditorPrefs.GetBool("VSCode_AutoOpenEnabled", false);
+            }
+            set
+            {
+                EditorPrefs.SetBool("VSCode_AutoOpenEnabled", value);
             }
         }
 
@@ -294,6 +309,13 @@ namespace dotBunny.Unity
                 {
                     CheckForUpdate();
                 }
+
+                // Open VS Code automatically when project is loaded
+                if (AutoOpenEnabled)
+                {
+                    CheckForAutoOpen();
+                }
+                
             }
             
             // Event for when script is reloaded 
@@ -526,6 +548,29 @@ namespace dotBunny.Unity
         }
 
         /// <summary>
+        /// Checks whether it should auto-open VSCode 
+        /// </summary>
+        /// <remarks>
+        /// VSCode() gets called on Launch and Run, through IntializeOnLoad
+        /// https://docs.unity3d.com/ScriptReference/InitializeOnLoadAttribute.html
+        /// To make sure it only opens VSCode when Unity (re)launches (i.e. opens a project),
+        /// we compare the launch time, which we calculate using EditorApplication.timeSinceStartup.  
+        /// </remarks>
+        static void CheckForAutoOpen()
+        {
+            double timeInSeconds = (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
+            int unityLaunchTimeInSeconds = (int)(timeInSeconds - EditorApplication.timeSinceStartup);
+            int prevUnityLaunchTime = EditorPrefs.GetInt("VSCode_UnityLaunchTime", 0);
+            // If launch time has changed, then Unity was re-opened 
+            if (unityLaunchTimeInSeconds > prevUnityLaunchTime) {
+                // Launch VSCode
+                VSCode.MenuOpenProject();
+                // Save new launch time
+                EditorPrefs.SetInt("VSCode_UnityLaunchTime", unityLaunchTimeInSeconds);
+            }
+        }
+
+        /// <summary>
         /// Clear out any existing project files and lingering stuff that might cause problems
         /// </summary>
         static void ClearProjectFiles()
@@ -726,7 +771,7 @@ namespace dotBunny.Unity
             SyncSolution();
 
             // Load Project
-            CallVSCode("\"" + ProjectPath + "\" -r");
+            CallVSCode("\"" + ProjectPath + "\"");
         }
 
         /// <summary>
@@ -760,7 +805,9 @@ namespace dotBunny.Unity
             }
             EditorGUILayout.BeginVertical();
 
-            EditorGUILayout.HelpBox("Support development of this plugin, follow @reapazor and @dotbunny on Twitter.", MessageType.Info);
+            var developmentInfo = "Support development of this plugin, follow @reapazor and @dotbunny on Twitter.";
+            var versionInfo = string.Format("{0:0.00}", Version) + VersionCode + ", GitHub version @ " + string.Format("{0:0.00}", GitHubVersion);
+            EditorGUILayout.HelpBox(developmentInfo + " --- [ " + versionInfo + " ]", MessageType.None);
 
             EditorGUI.BeginChangeCheck();
             
@@ -788,6 +835,8 @@ namespace dotBunny.Unity
             Enabled = EditorGUILayout.Toggle(new GUIContent("Enable Integration", "Should the integration work its magic for you?"), Enabled);
 
             UseUnityDebugger = EditorGUILayout.Toggle(new GUIContent("Use Unity Debugger", "Should the integration integrate with Unity's VSCode Extension (must be installed)."), UseUnityDebugger);
+
+            AutoOpenEnabled = EditorGUILayout.Toggle(new GUIContent("Enable Auto Open", "When opening a project in Unity, should it automatically open in VS Code?"), AutoOpenEnabled);
 
             EditorGUILayout.Space();
             RevertExternalScriptEditorOnExit = EditorGUILayout.Toggle(new GUIContent("Revert Script Editor On Unload", "Should the external script editor setting be reverted to its previous setting on project unload? This is useful if you do not use Code with all your projects."),RevertExternalScriptEditorOnExit);
@@ -849,17 +898,6 @@ namespace dotBunny.Unity
                 }
             }
 
-            GUILayout.FlexibleSpace();
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-
-            GUILayout.Label(
-                new GUIContent(
-                    string.Format("{0:0.00}", Version) + VersionCode,
-                    "GitHub's Version @ " + string.Format("{0:0.00}", GitHubVersion)));
-
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.EndVertical();
         }
 
         /// <summary>
@@ -1109,13 +1147,13 @@ namespace dotBunny.Unity
                 EditorPrefs.SetString("kScriptsDefaultApp", CodePath);
 
                 // Arguments
-                if (EditorPrefs.GetString("kScriptEditorArgs") != "-r -g \"$(File):$(Line)\"")
+                if (EditorPrefs.GetString("kScriptEditorArgs") != "-r -g `$(File):$(Line)`")
                 {
                     EditorPrefs.SetString("VSCode_PreviousArgs", EditorPrefs.GetString("kScriptEditorArgs"));
                 }
 
-                EditorPrefs.SetString("kScriptEditorArgs", "-r -g \"$(File):$(Line)\"");
-                EditorPrefs.SetString("kScriptEditorArgs" + CodePath, "-r -g \"$(File):$(Line)\"");
+                EditorPrefs.SetString("kScriptEditorArgs", "-r -g `$(File):$(Line)`");
+                EditorPrefs.SetString("kScriptEditorArgs" + CodePath, "-r -g `$(File):$(Line)`");
 
 
                 // MonoDevelop Solution
